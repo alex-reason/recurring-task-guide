@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/recurring-task-guide/static/css/main.0a8a0db3.css",
+    "main.js": "/recurring-task-guide/static/js/main.727453dc.js",
+    "index.html": "/recurring-task-guide/index.html",
+    "static/media/delete.svg": "/recurring-task-guide/static/media/delete.68ad3101e99a5a469b7c0118756b3885.svg",
+    "static/media/dark-light.svg": "/recurring-task-guide/static/media/dark-light.9571225767492bc1dce7545dad2eace4.svg",
+    "main.0a8a0db3.css.map": "/recurring-task-guide/static/css/main.0a8a0db3.css.map",
+    "main.727453dc.js.map": "/recurring-task-guide/static/js/main.727453dc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0a8a0db3.css",
+    "static/js/main.727453dc.js"
+  ]
+}
