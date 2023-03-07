@@ -1,0 +1,42 @@
+.create {
+    color: #555;
+    max-width: 500px;
+    margin: 60px auto;
+
+    @media screen and (max-width: $sm-screen){
+        padding: 0 2rem;
+    }
+
+    label span {
+        display: block;
+        margin: 30px 0 10px;
+    }
+
+    label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    p {
+        margin-top: 1rem;
+        font-size: .9rem;
+    }
+
+    &-dark {
+        color: #dfdfdf;
+    }
+}
+
+.documents {
+    display: flex;
+    align-items: center;
+
+    input {
+        width: 100%;
+    }
+    .btn {
+        margin: 0 0 0 .5rem;
+    }
+}
+

@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Home, Login, Signup, Create, Guide, Search } from './pages';
+import Navbar from './components/Navbar';
+import ThemeSelector from './components/ThemeSelector';
+import { useThemeContext } from './hooks/useThemeContext';
+import { useAuthContext } from './hooks/useAuthContext';
 
-function App() {
+const App = () => {
+  const { mode } = useThemeContext();
+  const { authIsReady, user } = useAuthContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`app app${mode}`}>
+      {authIsReady &&
+        <BrowserRouter>
+          <Navbar />
+          <ThemeSelector />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+
+            <Route
+              path='/create'
+              element={user ? <Create /> :(<Navigate to='/login' />)}
+            />
+            <Route
+              path='/guides/:id'
+              element={user ? <Guide /> : (<Navigate to='/login' />)}
+            />
+            <Route 
+            path='/search' 
+            element={user ? <Search/> : (<Navigate to='/login' />)}
+            />
+
+          </Routes>
+        </BrowserRouter>}
     </div>
-  );
-}
+  )
+};
 
 export default App;

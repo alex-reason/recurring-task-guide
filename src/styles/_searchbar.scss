@@ -1,0 +1,21 @@
+.searchbar {
+    color: #fff;
+
+    @media screen and (max-width:$sm-screen) {
+        width: 60%;
+    }
+
+    form {
+        display: flex;
+        align-items: center;
+
+    }
+
+    input {
+        margin-left: .5rem;
+
+        @media screen and (max-width:$sm-screen) {
+            width: 100%;
+        }
+    }
+}
