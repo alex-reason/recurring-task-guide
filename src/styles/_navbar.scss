@@ -1,0 +1,120 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 1rem .5rem;
+    background-color: $color1;
+
+    @media screen and (max-width: $sm-screen) {
+        flex-direction: column;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+
+        @media screen and (max-width: $sm-screen) {
+            text-align: center;
+        }
+    }
+
+    h1,
+    p {
+        margin: .5rem;
+
+        @media screen and (max-width: $sm-screen) {
+            text-align: center;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+
+        a, button {
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    }
+
+    &__logout {
+        background-color: transparent;
+        border: 0;
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+        font-size: 1rem;
+        margin-left: .5rem;
+        padding: 1rem;
+
+        @media screen and (max-width: $sm-screen) {
+            padding: .5rem;
+            position: absolute;
+            margin: .5rem .1rem;
+            top: 0;
+        }
+
+        &:hover {
+            font-weight: 600;
+        }
+    }
+
+    &__create {
+        border: 1px solid #fff;
+        margin-left: 2rem;
+        padding: .5rem;
+        
+        &:hover {
+            background-color: #fff;
+            color: #333;
+        }
+        
+        @media screen and (max-width: $sm-screen) {
+            padding: .1rem 0;
+            width: 60%;
+        }
+    }
+
+    &__auth {
+        display: flex;
+
+        a {
+            &:hover {
+                background-color: #fff;
+                color: #333;
+                border-radius: 5px;
+            }
+
+            &:last-of-type {
+                font-weight: 600;
+            }
+        }
+
+        @media screen and (max-width: $sm-screen) {
+            position: absolute;
+            margin: .5rem .1rem;
+            top: 0;
+            right: 0;
+        }
+    }
+
+    &__brand {
+        margin-right: auto;
+        color: #fff;
+    }
+}
+
+.bg-blue {
+    background-color: $color-blue;
+}
+
+.bg-purple {
+    background-color: $color-purple;
+}
+
+.bg-red {
+    background-color: $color-red;
+}

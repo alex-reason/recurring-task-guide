@@ -1,0 +1,36 @@
+1. HOC
+2. Render props
+
+ex:
+const DataFetcher = ({render, url}) => {
+    const [data, setData] =  useState([]);
+    
+    useEffect(() => {
+        if (url.includes("desserts")){
+            setData(["cake", "icecream", "pie"]);
+        } else {
+            setData(["water", "coffee", "tea"])
+        }
+    }, [])
+
+    return render(data);
+
+}
+
+const DessertCount = () => {
+    return (
+        <DataFetcher 
+            url="https://sampleurl.com/desserts"
+            render={(data) => <p>{data.length} desserts</p>}
+        />
+    )
+}
+
+const DrinksCount = () => {
+    return (
+        <DataFetcher 
+            url="https://sampleurl.com/drinks"
+            render={(data) => <p>{data.length} drinks</p>}
+        />
+    )
+}

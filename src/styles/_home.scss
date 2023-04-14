@@ -1,0 +1,13 @@
+.home {
+    max-width: 1200px;
+    margin: 3rem auto;
+
+    h1 {
+       text-align: center;
+
+       @media screen and (max-width: $sm-screen){
+        font-size: 1.2rem;
+        margin: .5rem;
+       }
+    }
+}

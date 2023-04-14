@@ -1,0 +1,264 @@
+//GUIDE.JS notes / prev code
+// import { useFetch } from '../hooks/useFetch';
+import { useParams } from 'react-router-dom';
+import { useThemeContext } from '../hooks/useThemeContext';
+import { useEffect, useState } from 'react';
+// import { projectFirestore } from '../firebase/config';
+import { useCollection } from '../hooks/useCollection';
+
+
+const Guide = () => {
+  // const url = 'http://localhost:3000/guides/' + id;
+  // const { error, isPending, data: guide } = useFetch(url);
+  const { mode } = useThemeContext();
+  const { id } = useParams();
+  // const [guide, setGuide] = useState(null);
+  // const [isPending, setIsPending] = useState(false);
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   setIsPending(true);
+
+  //   const unsubscribe = projectFirestore.collection('guides').doc(id).onSnapshot((doc) => {
+  //     if (doc.exists) {
+  //       setIsPending(false);
+  //       setGuide(doc.data())
+  //     } else {
+  //       setIsPending(false)
+  //       setError('Could not find that guide')
+  //     }
+  //   })
+
+  //   return () => unsubscribe();
+  // }, [id]);
+
+  // const handleUpdate = () => {
+  //   projectFirestore.collection('guides').doc(id).update({
+  //     title: 'updated title'
+  //   })
+  // }
+
+  const guideClassName = `guide guide${mode}`;
+  const titleClassName = `centered page-title page-title${mode}`
+
+  const renderedGuide = guide && (
+    <>
+      <h2 className={titleClassName}>{guide.title}</h2>
+      <p>Takes an estimated {guide.caseTime} to prepare case</p>
+      <h4>General Documents List:</h4>
+      <ul>
+        {guide.documents.map(document => (
+          <li key={`${guide.id}doc${guide.documents.indexOf(document)}`}>
+            {document}
+          </li>
+        ))}
+      </ul>
+      <h4>General Steps:</h4>
+      <p> {guide.generalSteps}</p>
+      {/* <button onClick={handleUpdate}>Update</button> */}
+    </>
+  )
+
+  return (
+    <div className={guideClassName}>
+      {error && <p className='centered'>{error}</p>}
+      {isPending && <p className='centered'>Loading...</p>}
+      {renderedGuide}
+    </div>
+  )
+}
+
+export default Guide
+
+
+
+//SEARCH.JS notes
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"
+// import { useFetch } from "../hooks/useFetch";
+import GuideList from "../components/GuideList";
+// import { projectFirestore } from "../firebase/config";
+import { useThemeContext } from "../hooks/useThemeContext";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
+const Search = () => {
+  const queryString = useLocation().search;
+  const queryParams = new URLSearchParams(queryString);
+  const query = queryParams.get('q');
+
+  // const url = 'http://localhost:3000/guides?q=' + query
+  // const {error, isPending, data} = useFetch(url)
+
+  const {mode} = useThemeContext();
+  const titleClassName = `page-title centered page-title${mode}`
+
+  const [guides, setGuides] = useState(null);
+  const [error, setError] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+
+  }, [query])
+
+  // useEffect(() => {
+  //   setIsPending(true);
+  //   const unsubscribe = projectFirestore.collection("guides").onSnapshot((snapshot) => {
+  //     if (snapshot.empty) {
+  //       setError("There are no such guides");
+  //       setIsPending(false);
+  //     } else {
+  //       let searchResults = [];
+  //       snapshot.docs.forEach((doc) => {
+  //         if (doc.data().title.toLowerCase().includes(query.toLowerCase())) {
+  //           searchResults.push({ id: doc.id, ...doc.data() });
+  //         }
+  //       });
+  //       setGuides(searchResults);
+  //       setIsPending(false);
+  //     }
+  //   });
+  //   return () => unsubscribe();
+  // }, [query]);
+
+  return (
+    <div>
+      <h2 className={titleClassName}>Guides including "{query}"</h2>
+      {error && <p className='centered'>{error}</p>}
+      {isPending && <p className='centered'>Loading</p>}
+      {guides && <GuideList data={guides} />}
+    </div>
+  )
+}
+
+
+//HOME notes
+// import { useEffect, useState } from "react";
+// import { useFetch } from "../hooks/useFetch";
+import GuideList from "../components/GuideList";
+// import { projectFirestore } from "../firebase/config";
+import { useCollection } from "../hooks/useCollection";
+
+const Home = () => {
+  // const { data, isPending, error } = useFetch('http://localhost:3000/guides');
+  // const [data, setData] = useState(null);
+  // const [isPending, setIsPending] = useState(false);
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+
+  //   setIsPending(true);
+
+  //   const unsubscribe = projectFirestore.collection('guides').onSnapshot((snapshot) => {
+  //     if (snapshot.empty) {
+  //       setError('No guides to load');
+  //       setIsPending(false)
+  //     } else {
+  //       let results = []
+  //       snapshot.docs.forEach(doc => {
+  //         results.push({ id: doc.id, ...doc.data() })
+  //       })
+  //       setData(results)
+  //       setIsPending(false)
+  //     }
+  //   }, (err) => {
+  //     setError(err.message)
+  //     setIsPending(false)
+  //   })
+  //   // need clean up function so snapshot stops listening 
+  //   return () => {
+  //     unsubscribe()
+  //   }
+  // }, [])
+
+  const { documents: data, isPending, error } = useCollection('guides');
+
+  return (
+    <div className='home'>
+      {error && <p className='centered'>{error}</p>}
+      {isPending && <p className='centered'>Loading</p>}
+      {data && <GuideList data={data} />}
+    </div>
+  )
+}
+
+export default Home
+
+
+// CREATE.JS  
+// const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const docToPost = { title, documents, generalSteps, caseTime: caseTime + ' minutes' }
+
+  //   try {
+  //     await projectFirestore.collection('guides').add(docToPost)
+  //     // redirect user when we get data response 
+  //     navigate('/')
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (data) { navigate('/') }
+  // }, [data, navigate])
+
+//USEFETCH.JS
+import { useState, useEffect } from 'react';
+
+export const useFetch = (url, method = 'GET') => {
+    const [data, setData] = useState(null);
+    const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState(null);
+    const [options, setOptions] = useState(null);
+
+    const postData = (dataToPost) => {
+        setOptions({
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToPost)
+        })
+    }
+    
+    useEffect(() => {
+        const controller = new AbortController();
+
+        const fetchData = async (fetchOptions) => {
+            setIsPending(true);
+            try {
+                const response = await fetch(url, {...fetchOptions, signal: controller.signal });
+                if (!response.ok) {
+                    throw new Error(response.statusText)
+                }
+                const jsonData = await response.json();
+
+                setIsPending(false);
+                setData(jsonData);
+                setError(null);
+                
+            } catch (err) {
+                if (err.name === 'AbortError') {
+                    console.log('fetching data was aborted')
+                } else {
+                    setIsPending(false);
+                    setError('Could not fetch the data');
+                }
+            }
+        };
+        // check if method is get, do useEffect func as usual
+        if(method === 'GET'){
+            fetchData();
+        }
+        // if method is POST, need to add options to make sure options in postData is added to request
+        if (method === 'POST' && options){
+            fetchData(options)
+        }
+      
+        return () => { controller.abort() };
+
+    }, [url, options, method]);
+
+    // since we pass down postData, if an options is entered through postData, useEffect is triggered because postData changes options state, and options is a dependency of the useEffect here.
+    return { data, isPending, error, postData };
+}
